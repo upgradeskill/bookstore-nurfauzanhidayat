@@ -22,11 +22,16 @@ func main() {
 	bookService := services.NewBookService(bookRepository)
 	echoHandler := handler.NewEchoHandler(bookService)
 
+	userRepository := repositories.NewUsersRepository(db)
+	userService := services.NewUserService(userRepository)
+	userHandler := handler.NewUserHandler(userService)
+
 	e := echo.New()
 
 	e.GET("/", echoHandler.EchoHelloWorld)
 	e.GET("/book", echoHandler.GetBook)
 	e.POST("/book", echoHandler.AddBook)
+	e.POST("/login", userHandler.GetUser)
 	e.PUT("/book", echoHandler.UpdateBook)
 	e.DELETE("/book", echoHandler.DeleteBook)
 
